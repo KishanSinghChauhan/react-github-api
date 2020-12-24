@@ -12,13 +12,16 @@ const App = () => {
 
   const fetchUser = async (user) => {
     const result = await fetch(`https://api.github.com/users/${user}`);
-    return await result.json();
-    
+    const res = await result.json();
+    console.log(res);
+    return res;
   };
 
   const fetchRepo = async (user) => {
     const result = await fetch(`https://api.github.com/users/${user}/repos`);
-    return await result.json();
+    const res = await result.json();
+    console.log(res);
+    return res;
   };
 
   const debounceSearch = useRef(
@@ -70,14 +73,16 @@ const App = () => {
         );
       })}
       <h1>User Repo</h1>
-      {repo.map((d,i) => {
+      { repo.length ? (repo.map((d, i) => {
         return (
           <div key={i}>
-            <h1>{d.name}</h1>
-            <p>{d.description}</p>
+            <div>
+              <h1>{d.name}</h1>
+              <p>{d.description}</p>
+            </div>
           </div>
         );
-      })}
+      })): (<h1>NO</h1>)}
     </div>
   );
 };
