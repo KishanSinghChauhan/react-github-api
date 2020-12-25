@@ -3,19 +3,15 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import { Provider } from "react-redux";
-import {createStore,applyMiddleware,combineReducers} from 'redux'
-import {setUser,requestUserInfo,requestUserRepo} from './redux/reducer';
-import {createLogger} from 'redux-logger';
-import thunkMiddleWare from 'redux-thunk'
-
-const rootReducer = combineReducers({setUser,requestUserInfo,requestUserRepo})
-const logger = createLogger();
-const store = createStore(rootReducer,applyMiddleware(thunkMiddleWare ,logger));
+import {store,persistor} from './store';
+import { PersistGate } from 'redux-persist/integration/react'
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <PersistGate persistor={persistor}>
+        <App />
+      </PersistGate>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")
