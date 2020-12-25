@@ -21,7 +21,7 @@ export const setUser = (state = initialState, action = {}) => {
 };
 
 const initialStateUserInfo = {
-  userData: {},
+  userData: [],
   isPending: true,
   error: "",
 };
@@ -36,7 +36,10 @@ export const requestUserInfo = (state = initialStateUserInfo, action = {}) => {
         isPending: false,
       });
     case REQUEST_INFO_FAILED:
-      return Object.assign({}, state, { error: action.payload });
+      return {
+        ...state,
+        userData:[...state.userData , { data: action.payload}]
+      };
     default:
       return state;
   }

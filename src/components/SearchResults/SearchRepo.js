@@ -8,10 +8,12 @@ const SearchRepo = ({ item }) => {
         item.map((d, i) => {
           return (
             <div key={i}>
-              <div>
-                <h1>{d.name}</h1>
-                <p>{d.description}</p>
-              </div>
+              {i < 5 ? (
+                <div>
+                  <h1>{d.name}</h1>
+                  <p>{d.description}</p>
+                </div>
+              ) : null}
             </div>
           );
         })
