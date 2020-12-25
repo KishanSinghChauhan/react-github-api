@@ -1,64 +1,73 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import "./App.css";
 import SearchBox from "./components/SearchBox/SearchBox";
 import _ from "lodash";
-import SearchResult from './components/SearchResults/SearchResult';
+import SearchResult from "./components/SearchResults/SearchResult";
 import SearchRepo from "./components/SearchResults/SearchRepo";
-const App = () => {
-  const [data, setData] = useState([]);
-  const [userName, setUserName] = useState("");
-  const [repo, setRepo] = useState([]);
+import { connect } from "react-redux";
+import { selectUser, fetchUserAndRepos } from "./redux/action";
 
-  const [isSearching, setIsSearching] = useState(false);
+const App = ({ currentUser, currentUserData, userRepos, dispatch }) => {
+  // const [data, setData] = useState([]);
+  // const [userName, setUserName] = useState("");
+  // const [repo, setRepo] = useState([]);
 
-  const fetchUser = async (user) => {
-    const result = await fetch(`https://api.github.com/users/${user}`);
-    const res = await result.json();
-    console.log(res);
-    return res;
-  };
+  // const [isSearching, setIsSearching] = useState(false);
 
-  const fetchRepo = async (user) => {
-    const result = await fetch(`https://api.github.com/users/${user}/repos`);
-    const res = await result.json();
-    console.log(res);
-    return res;
-  };
+  // const fetchUser = async (user) => {
+  //   const result = await fetch(`https://api.github.com/users/${user}`);
+  //   const res = await result.json();
+  //   console.log(res);
+  //   return res;
+  // };
+
+  // const fetchRepo = async (user) => {
+  //   const result = await fetch(`https://api.github.com/users/${user}/repos`);
+  //   const res = await result.json();
+  //   console.log(res);
+  //   return res;
+  // };
 
   const debounceSearch = useRef(
     _.debounce((searchTerm) => {
-      fetchUser(searchTerm).then((results) => {
-        setIsSearching(false);
-        setData(results);
-      });
-      fetchRepo(searchTerm).then((results) => {
-        setIsSearching(false);
-        setRepo(results);
-      });
+      fetchUserAndRepos(searchTerm)
     }, 1000)
   );
 
-  useEffect(() => {
-    if (userName) {
-      setIsSearching(true);
-      debounceSearch.current(userName);
-    } else {
-      setData([]);
-      setRepo([]);
-    }
-  }, [userName]);
+  // useEffect(() => {
+  //   if (userName) {
+  //     setIsSearching(true);
+  //     debounceSearch.current(userName);
+  //   } else {
+  //     setData([]);
+  //     setRepo([]);
+  //   }
+  // }, [userName]);
 
-  const handleUserName = (name) => {
-    setUserName(name);
+  useEffect(() => {
+    dispatch(debounceSearch.current(currentUser));
+  })
+  const handleUserName = (user) => {
+    dispatch(selectUser(user));
   };
+
   return (
     <>
       <SearchBox handleName={handleUserName} />
-      {isSearching && <div>Searching ...</div>}
-      <SearchResult item={[data]} />
-      <SearchRepo item={repo}/>
+      {currentUserData.isFetching && <div>Searching ...</div>}
+      <SearchResult item={[currentUserData]} />
+      <SearchRepo item={userRepos} />
     </>
   );
 };
 
-export default App;
+function mapStateToProps(state) {
+  const { currentUser, currentUserData, userRepos } = state;
+  return {
+    currentUser,
+    currentUserData,
+    userRepos,
+  };
+}
+
+export default connect(mapStateToProps)(App);
