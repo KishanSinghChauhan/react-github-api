@@ -1,81 +1,65 @@
-import { combineReducers } from "redux";
 import {
-  SELECT_USER,
-  REQUEST_USERDATA,
-  RECEIVE_USERDATA,
-  RECEIVE_USERDATA_ERROR,
-  REQUEST_REPOS,
-  RECEIVE_REPOS,
-  RECEIVE_REPOS_ERROR,
+  CHANGE_USER,
+  REQUEST_INFO_PENDING,
+  REQUEST_INFO_SUCCESS,
+  REQUEST_INFO_FAILED,
+  REQUEST_REPO_PENDING,
+  REQUEST_REPO_SUCCESS,
+  REQUEST_REPO_FAILED,
 } from "./contants";
 
-export const currentUser = (state = "", action) => {
+const initialState = {
+  currentUser: "",
+};
+export const setUser = (state = initialState, action = {}) => {
   switch (action.type) {
-    case SELECT_USER:
-      return action.user;
+    case CHANGE_USER:
+      return Object.assign({}, state, { currentUser: action.payload });
     default:
       return state;
   }
-}
+};
 
-export const currentUserData = (
-  state = {
-    isFetching: false,
-    userData: {},
-  },
-  action
-)  => {
+const initialStateUserInfo = {
+  userData: {},
+  isPending: true,
+  error: "",
+};
+
+export const requestUserInfo = (state = initialStateUserInfo, action = {}) => {
   switch (action.type) {
-    case REQUEST_USERDATA:
+    case REQUEST_INFO_PENDING:
+      return Object.assign({}, state, { isPending: true });
+    case REQUEST_INFO_SUCCESS:
       return Object.assign({}, state, {
-        isFetching: true,
+        userData: action.payload,
+        isPending: false,
       });
-    case RECEIVE_USERDATA:
-      return Object.assign({}, state, {
-        isFetching: false,
-        userData: action.userData,
-      });
-    case RECEIVE_USERDATA_ERROR:
-      return Object.assign({}, state, {
-        isFetching: false,
-        userData: action.error,
-      });
+    case REQUEST_INFO_FAILED:
+      return Object.assign({}, state, { error: action.payload });
     default:
       return state;
   }
-}
+};
 
-export const userRepos = (
-  state = {
-    isFetching: false,
-    repos: [],
-  },
-  action
-) => {
+const initialStateUserRepo = {
+  userRepo: [],
+  isPending: true,
+  error: "",
+};
+
+export const requestUserRepo = (state = initialStateUserRepo, action = {}) => {
   switch (action.type) {
-    case REQUEST_REPOS:
+    case REQUEST_REPO_PENDING:
+      return Object.assign({}, state, { isPending: true });
+    case REQUEST_REPO_SUCCESS:
       return Object.assign({}, state, {
-        isFetching: true,
+        userRepo: action.payload,
+        isPending: false,
       });
-    case RECEIVE_REPOS:
-      return Object.assign({}, state, {
-        isFetching: false,
-        repos: action.repos,
-      });
-    case RECEIVE_REPOS_ERROR:
-      return Object.assign({}, state, {
-        isFetching: false,
-        repos: action.error,
-      });
+    case REQUEST_REPO_FAILED:
+      return Object.assign({}, state, { error: action.payload });
     default:
       return state;
   }
-}
-
-const rootReducer = combineReducers({
-  currentUser,
-  currentUserData,
-  userRepos,
-});
-
-export default rootReducer;
+};

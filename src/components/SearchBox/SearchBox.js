@@ -1,11 +1,10 @@
 import React from 'react'
-
-const SearchBox = ({handleName}) => {
+const SearchBox = ({onSearchChange}) => {
     return (
         <div>
-            <input placeholder='enter user name' onChange={(e) => handleName(e.target.value)}/>
+            <input placeholder='enter user name' onChange={onSearchChange}/>
         </div>
     )
 }
 
-export default SearchBox
+export default SearchBox;
