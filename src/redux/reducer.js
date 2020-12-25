@@ -38,7 +38,7 @@ export const requestUserInfo = (state = initialStateUserInfo, action = {}) => {
     case REQUEST_INFO_FAILED:
       return {
         ...state,
-        userData:[...state.userData , { data: action.payload}]
+        userData:[...state.userData , action.payload]
       };
     default:
       return state;
