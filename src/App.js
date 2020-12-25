@@ -2,7 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import "./App.css";
 import SearchBox from "./components/SearchBox/SearchBox";
 import _ from "lodash";
-
+import SearchResult from './components/SearchResults/SearchResult';
+import SearchRepo from "./components/SearchResults/SearchRepo";
 const App = () => {
   const [data, setData] = useState([]);
   const [userName, setUserName] = useState("");
@@ -51,39 +52,12 @@ const App = () => {
     setUserName(name);
   };
   return (
-    <div className="App">
+    <>
       <SearchBox handleName={handleUserName} />
       {isSearching && <div>Searching ...</div>}
-      <h1>User Info</h1>
-      {[data].map((d, i) => {
-        return (
-          <div key={i}>
-            {d.message ? (
-              <h1>{d.message}</h1>
-            ) : (
-              <div>
-                <h1>{d.login}</h1>
-                <h1>{d.bio}</h1>
-                <img src={d.avatar_url} alt={d.login} />
-                <p>{d.followers}</p>
-                <p>{d.following}</p>
-              </div>
-            )}
-          </div>
-        );
-      })}
-      <h1>User Repo</h1>
-      { repo.length ? (repo.map((d, i) => {
-        return (
-          <div key={i}>
-            <div>
-              <h1>{d.name}</h1>
-              <p>{d.description}</p>
-            </div>
-          </div>
-        );
-      })): (<h1>NO</h1>)}
-    </div>
+      <SearchResult item={[data]} />
+      <SearchRepo item={repo}/>
+    </>
   );
 };
 
