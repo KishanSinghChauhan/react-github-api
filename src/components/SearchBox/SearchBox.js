@@ -1,8 +1,13 @@
-import React from 'react'
+import React from 'react';
+import './SearchBox.scss'
 const SearchBox = ({onSearchChange}) => {
     return (
-        <div>
-            <input placeholder='enter user name' onChange={onSearchChange}/>
+        <div className='search-box'>
+            <input
+                className='search-input' 
+                placeholder='enter user name'
+                onChange={onSearchChange}
+            />
         </div>
     )
 }

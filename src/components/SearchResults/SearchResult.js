@@ -1,29 +1,32 @@
 import React from 'react'
-
+import './SearchResults.scss'
 const SearchResult = ({item}) => {
     const info = item.map((d, i) => {
         return (
           <div key={i}>
             {d.message ? (
-              <h1>{d.message}</h1>
+              <h5>{d.message}</h5>
             ) : (
-              <>
-                <h1>{d.login}</h1>
-                <h1>{d.bio}</h1>
-                <img src={d.avatar_url} alt={d.login} />
-                <p>{d.followers}</p>
-                <p>{d.following}</p>
-              </>
+              <div className="profile-info">
+                <img className="user-img" src={d.avatar_url} alt={d.login} />
+                <h3>{d.login}</h3>
+                <p>{d.bio}</p>
+                <p className="follow">
+                  Followers - <span>{d.followers}</span>
+                </p>
+                <p className="follow">
+                  Following - <span>{d.following}</span>
+                </p>
+              </div>
             )}
           </div>
         );
       });
 
     return (
-        <>
-            <h1>User Info</h1>
+        <div className='profile'>
             {info}
-        </>
+        </div>
     )
 }
 

@@ -1,0 +1,7 @@
+.info-user {
+    display: flex;
+    justify-content: space-around;
+    box-shadow: 2px 1px 3px 4px lightgrey;
+    padding: 90px 0px;
+    margin: 3% 8%;
+}

@@ -1,0 +1,16 @@
+.search-box{
+    text-align: center;
+    margin: 20px 0;
+    .search-input{
+        width: 300px;
+        padding: 10px 0 10px 20px;
+        box-shadow: 1px 2px 3px 4px lightgray;
+        margin: 20px;
+        border: none;
+    }
+    
+}
+
+.search-input:active,.search-input:focus{
+    outline: none;
+}

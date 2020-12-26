@@ -34,9 +34,16 @@ const App = (props) => {
   return (
     <>
       <SearchBox onSearchChange={onSearchChange} />
-      {!currentUser && isPending && <div>Searching ...</div>}
-      <SearchResult item={[userData]} />
-      <SearchRepo item={userRepo} />
+      { isPending && <div>Searching ...</div>}
+
+      {currentUser !== "" &&
+        !userData.message &&
+        !isPending && (
+          <div className='info-user'>
+            <SearchResult item={[userData]} />
+            <SearchRepo item = {userRepo}/>
+          </div>
+        )}
     </>
   );
 };

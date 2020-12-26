@@ -1,16 +1,15 @@
 import React from "react";
-
+import './SerachRepo.scss'
 const SearchRepo = ({ item }) => {
   return (
-    <>
-      <h1>User Repo</h1>
+    <div className='repo'>
       {item.length ? (
         item.map((d, i) => {
           return (
             <div key={i}>
               {i < 5 ? (
-                <div>
-                  <h1>{d.name}</h1>
+                <div className="repo-info">
+                  <h4>{d.name}</h4>
                   <p>{d.description}</p>
                 </div>
               ) : null}
@@ -20,7 +19,7 @@ const SearchRepo = ({ item }) => {
       ) : (
         <h1>NO</h1>
       )}
-    </>
+    </div>
   );
 };
 
